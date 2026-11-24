@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        small {
+            color: red;
+            display: block;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4b5fc5;
+        }
+
+        #successMessage {
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <form id="signupForm">
+
+            <h1>Create Account</h1>
+            <p class="subtitle">Sign up to get started!</p>
+
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Enter your name">
+                <small id="nameError"></small>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="text" id="email" placeholder="Enter your email">
+                <small id="emailError"></small>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Create password">
+                <small id="passwordError"></small>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword"
+                       placeholder="Confirm password">
+                <small id="confirmPasswordError"></small>
+            </div>
+
+            <button type="submit">Sign Up</button>
+
+            <p id="successMessage"></p>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        // DOM Selection
+
+        const form = document.getElementById("signupForm");
+
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+        const successMessage = document.getElementById("successMessage");
+
+
+        // Form Validation
+
+        form.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            // Clear previous errors
+            document.querySelectorAll("small").forEach(error => {
+                error.textContent = "";
+            });
+
+            successMessage.textContent = "";
+
+            let isValid = true;
+
+            // Name Validation
+
+            if (name.value.trim() === "") {
+                document.getElementById("nameError").textContent =
+                    "Name is required";
+                isValid = false;
+            }
+            else if (name.value.trim().length < 3) {
+                document.getElementById("nameError").textContent =
+                    "Name must be at least 3 characters";
+                isValid = false;
+            }
+
+            // Email Validation
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email.value.trim() === "") {
+                document.getElementById("emailError").textContent =
+                    "Email is required";
+                isValid = false;
+            }
+            else if (!emailPattern.test(email.value.trim())) {
+                document.getElementById("emailError").textContent =
+                    "Enter a valid email";
+                isValid = false;
+            }
+
+            // Password Validation
+
+            if (password.value === "") {
+                document.getElementById("passwordError").textContent =
+                    "Password is required";
+                isValid = false;
+            }
+            else if (password.value.length < 8) {
+                document.getElementById("passwordError").textContent =
+                    "Password must contain at least 8 characters";
+                isValid = false;
+            }
+            else if (!/[A-Z]/.test(password.value) ||
+                     !/[a-z]/.test(password.value) ||
+                     !/[0-9]/.test(password.value)) {
+                document.getElementById("passwordError").textContent =
+                    "Use uppercase, lowercase and numbers";
+                isValid = false;
+            }
+
+            // Confirm Password Validation
+
+            if (confirmPassword.value === "") {
+                document.getElementById("confirmPasswordError").textContent =
+                    "Please confirm your password";
+                isValid = false;
+            }
+            else if (password.value !== confirmPassword.value) {
+                document.getElementById("confirmPasswordError").textContent =
+                    "Passwords do not match";
+                isValid = false;
+            }
+
+            // Signup Successful
+
+            if (isValid) {
+
+                alert("Signup Successful!");
+
+                form.reset();
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
